@@ -1,0 +1,22 @@
+{
+  "apps": [
+    {
+      "id": "archive-pro",
+      "name": "Archive Pro",
+      "author": "YourName",
+      "description": "Premium downloader and streamer for Archive.org",
+      "icon": "https://raw.githubusercontent.com/Chijioke12/Open-KaiStore-Registry/main/icons/archive-pro-icon-112.png",
+      "type": "packaged",
+      "download_url": "https://raw.githubusercontent.com/Chijioke12/Open-KaiStore-Registry/main/apps/archive-pro.zip"
+    },
+    {
+      "id": "crusade-prayers",
+      "name": "Crusade Prayers",
+      "author": "Unknown",
+      "description": "Daily Prayers Scraper",
+      "icon": "https://raw.githubusercontent.com/Chijioke12/Open-KaiStore-Registry/main/icons/crusade-prayers-icon-112.png",
+      "type": "packaged",
+      "download_url": "https://raw.githubusercontent.com/Chijioke12/Open-KaiStore-Registry/main/apps/crusade-prayers.zip"
+    }
+  ]
+}
