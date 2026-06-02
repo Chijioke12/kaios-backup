@@ -1,0 +1,117 @@
+:root {
+	--kaios-teal: #008080;
+	--kaios-orange: #ff9d00;
+	--kaios-bg: #ffffff;
+	--kaios-text: #000000;
+	--kaios-secondary-text: #666666;
+	--kaios-focus-bg: #e6e6e6;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	background-color: var(--kaios-bg);
+	color: var(--kaios-text);
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	overflow: hidden;
+}
+
+header {
+	background-color: var(--kaios-teal);
+	color: white;
+	padding: 10px;
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	flex-shrink: 0;
+}
+
+main {
+	flex-grow: 1;
+	overflow-y: auto;
+	padding-bottom: 40px; /* Space for softkey bar simulation if needed */
+}
+
+.list-item {
+	padding: 10px;
+	border-bottom: 1px solid #ddd;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	text-decoration: none;
+	color: inherit;
+	background: none;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	text-align: left;
+}
+
+.list-item:focus,
+.list-item:focus-within {
+	background-color: var(--kaios-focus-bg);
+	outline: 2px solid var(--kaios-orange);
+	outline-offset: -2px;
+}
+
+.list-item label {
+	display: block;
+	font-size: 0.9em;
+	color: var(--kaios-secondary-text);
+	margin-bottom: 5px;
+}
+
+input[type="url"] {
+	width: 100%;
+	border: 1px solid #ccc;
+	padding: 8px;
+	box-sizing: border-box;
+	font-size: 1em;
+	background: white;
+}
+
+.list-item:focus input[type="url"] {
+	border-color: var(--kaios-orange);
+}
+
+button.list-item {
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1em;
+}
+
+#instructions {
+	padding: 15px;
+	background-color: #f9f9f9;
+	border-top: 2px solid var(--kaios-teal);
+	margin-top: 20px;
+}
+
+#instructions h2 {
+	font-size: 1em;
+	margin-top: 0;
+	color: var(--kaios-teal);
+}
+
+#instructions ol {
+	padding-left: 20px;
+	font-size: 0.85em;
+	line-height: 1.4;
+}
+
+code {
+	font-family: monospace;
+	background: #eee;
+	padding: 0 2px;
+}
+
+/* Hide scrollbar for cleaner look, but keep functionality */
+main::-webkit-scrollbar {
+	width: 4px;
+}
+main::-webkit-scrollbar-thumb {
+	background: var(--kaios-teal);
+}

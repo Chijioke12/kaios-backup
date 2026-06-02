@@ -1,0 +1,221 @@
+{
+  "sounds": {
+    "sfx_card_deal": {
+      "file": "sfx_card_deal.ogg",
+      "duration_s": 0.28,
+      "size_kb": 11,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_card_play": {
+      "file": "sfx_card_play.ogg",
+      "duration_s": 0.3,
+      "size_kb": 10,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_card_draw": {
+      "file": "sfx_card_draw.ogg",
+      "duration_s": 0.32,
+      "size_kb": 11,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_card_shuffle": {
+      "file": "sfx_card_shuffle.ogg",
+      "duration_s": 1.0,
+      "size_kb": 29,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_card_flip": {
+      "file": "sfx_card_flip.ogg",
+      "duration_s": 0.18,
+      "size_kb": 8,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_pick_two": {
+      "file": "sfx_pick_two.ogg",
+      "duration_s": 0.52,
+      "size_kb": 25,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_pick_three": {
+      "file": "sfx_pick_three.ogg",
+      "duration_s": 0.76,
+      "size_kb": 52,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_hold_on": {
+      "file": "sfx_hold_on.ogg",
+      "duration_s": 0.7,
+      "size_kb": 11,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_suspension": {
+      "file": "sfx_suspension.ogg",
+      "duration_s": 0.55,
+      "size_kb": 9,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_gen_market": {
+      "file": "sfx_gen_market.ogg",
+      "duration_s": 0.96,
+      "size_kb": 22,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_whot_played": {
+      "file": "sfx_whot_played.ogg",
+      "duration_s": 1.15,
+      "size_kb": 43,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_win": {
+      "file": "sfx_win.ogg",
+      "duration_s": 0.96,
+      "size_kb": 25,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_lose": {
+      "file": "sfx_lose.ogg",
+      "duration_s": 1.18,
+      "size_kb": 30,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_last_card": {
+      "file": "sfx_last_card.ogg",
+      "duration_s": 0.42,
+      "size_kb": 9,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_btn_click": {
+      "file": "sfx_btn_click.ogg",
+      "duration_s": 0.09,
+      "size_kb": 6,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_your_turn": {
+      "file": "sfx_your_turn.ogg",
+      "duration_s": 0.39,
+      "size_kb": 8,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_invalid_move": {
+      "file": "sfx_invalid_move.ogg",
+      "duration_s": 0.3,
+      "size_kb": 6,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_defend": {
+      "file": "sfx_defend.ogg",
+      "duration_s": 0.55,
+      "size_kb": 13,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_combo_double_deck": {
+      "file": "sfx_combo_double_deck.ogg",
+      "duration_s": 0.56,
+      "size_kb": 16,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_tournament_win": {
+      "file": "sfx_tournament_win.ogg",
+      "duration_s": 1.5,
+      "size_kb": 56,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_countdown_tick": {
+      "file": "sfx_countdown_tick.ogg",
+      "duration_s": 0.1,
+      "size_kb": 5,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    },
+    "sfx_game_start": {
+      "file": "sfx_game_start.ogg",
+      "duration_s": 1.44,
+      "size_kb": 37,
+      "sample_rate": 44100,
+      "channels": 2,
+      "format": "OGG Vorbis q7"
+    }
+  },
+  "total": 22,
+  "metadata": {
+    "game": "Naija Whot",
+    "version": "1.0",
+    "format": "OGG Vorbis",
+    "quality": "q7 (high)",
+    "sample_rate": 44100,
+    "channels": 2,
+    "categories": {
+      "card_actions": [
+        "sfx_card_deal",
+        "sfx_card_play",
+        "sfx_card_draw",
+        "sfx_card_shuffle",
+        "sfx_card_flip"
+      ],
+      "special_cards": [
+        "sfx_pick_two",
+        "sfx_pick_three",
+        "sfx_hold_on",
+        "sfx_suspension",
+        "sfx_gen_market",
+        "sfx_whot_played",
+        "sfx_defend"
+      ],
+      "game_events": [
+        "sfx_win",
+        "sfx_lose",
+        "sfx_last_card",
+        "sfx_game_start",
+        "sfx_your_turn",
+        "sfx_tournament_win",
+        "sfx_combo_double_deck",
+        "sfx_countdown_tick"
+      ],
+      "ui": [
+        "sfx_btn_click",
+        "sfx_invalid_move"
+      ]
+    }
+  }
+}

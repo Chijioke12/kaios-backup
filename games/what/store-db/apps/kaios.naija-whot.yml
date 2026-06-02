@@ -1,0 +1,12 @@
+name: "Naija Whot"
+description: "Classic African Whot card game."
+icon: "https://raw.githubusercontent.com/Chijioke12/naija-whot/main/public/assets/icon-512x512.png"
+download_url: "https://github.com/Chijioke12/naija-whot/releases/download/v1.0.0/naija-whot-omnisd.zip"
+version: "1.0.0"
+author: "Naija Whot"
+license: "GPL-3.0"
+category: "Games"
+screenshots:
+  - "https://raw.githubusercontent.com/Chijioke12/naija-whot/main/public/assets/icon-512x512.png" # Placeholder for screenshot
+website: "https://github.com/Chijioke12/naija-whot"
+git_repo: "https://github.com/Chijioke12/naija-whot"

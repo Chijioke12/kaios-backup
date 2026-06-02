@@ -1,0 +1,19 @@
+{
+  "name": "App Installer",
+  "description": "Installer utility for KaiOS apps",
+  "launch_path": "/index.html",
+  "origin": "app://oks.io",
+  "icons": {
+    "128": "/icon.png",
+    "512": "/icon.svg"
+  },
+  "type": "certified",
+  "permissions": {
+    "webapps-manage": {
+      "description": "Required to install hosted and packaged apps."
+    },
+    "systemXHR": {
+      "description": "Required to download packaged app binaries from external servers bypassing CORS."
+    }
+  }
+}

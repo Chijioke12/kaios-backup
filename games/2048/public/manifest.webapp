@@ -1,0 +1,23 @@
+{
+  "name": "KaiOS 2048",
+  "description": "A 2048 game optimized for KaiOS.",
+  "launch_path": "/index.html",
+  "icons": {
+    "56": "/icon-56.png",
+    "128": "/icon-128.png"
+  },
+  "developer": {
+    "name": "AI Studio",
+    "url": "https://ai.studio.google.com/"
+  },
+  "locales": {
+    "en-US": {
+      "name": "KaiOS 2048",
+      "subtitle": "Play 2048 on your KaiOS device!",
+      "description": "A 2048 game optimized for KaiOS."
+    }
+  },
+  "default_locale": "en-US",
+  "type": "web",
+  "fullscreen": "true"
+}

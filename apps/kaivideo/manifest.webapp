@@ -1,0 +1,29 @@
+{
+  "name": "KaiVideo",
+  "description": "A lightweight local video player optimized for KaiOS 2.5 navigation.",
+  "type": "privileged",
+  "version": "1.0.0",
+  "launch_path": "/index.html",
+  "fullscreen": true,
+  "icons": {
+    "56": "/icons/icon-56.png",
+    "112": "/icons/icon-112.png"
+  },
+  "permissions": {
+    "device-storage:videos": {
+      "access": "readonly"
+    },
+    "device-storage:sdcard": {
+      "access": "readwrite"
+    },
+    "device-storage:sdcard1": {
+      "access": "readwrite"
+    },
+    "audio-volume": {
+      "description": "Required for volume control"
+    },
+    "audio-channel-content": {}
+  },
+  "orientation": "portrait",
+  "default_locale": "en"
+}

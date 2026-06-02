@@ -1,0 +1,23 @@
+{
+  "name": "LInstall",
+  "origin": "app://linstall.io",
+  "description": "App Installer for KaiOS",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "KaiOS Developer",
+    "url": "http://example.com"
+  },
+  "type": "certified",
+  "permissions": {
+    "device-storage:sdcard": { "access": "readwrite" },
+    "webapps-manage": {}
+  },
+  "installs_allowed_from": ["*"],
+  "locales": {
+    "en-US": {
+      "name": "LInstall",
+      "description": "App Installer for KaiOS"
+    }
+  },
+  "default_locale": "en-US"
+}

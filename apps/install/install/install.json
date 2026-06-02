@@ -1,0 +1,20 @@
+{
+	"@comment": "Note that the code to transform these data into a webpage is in https://github.com/Schnark/schnark.github.io",
+	"title": {
+		"en": "App Installer – App for Firefox OS",
+		"de": "App Installer – App für Firefox OS"
+	},
+	"serviceworker": false,
+	"icon": "icon-128.png",
+	"screenshots": [
+		"screenshot.png"
+	],
+	"desc": {
+		"en": ["This app allows you to install FFOS apps that don't implement their own installation code. This is mainly inteded for a quick testing of your own apps."],
+		"de": ["Diese App erlaubt es FFOS-Apps zu installieren, die keinen eigenen Installationscode besitzen. Dies ist hauptsächlich für ein schnelles Testen eigener Apps gedacht."]
+	},
+	"restrictions": {
+		"en": "Note that it will only work in old Firefox browsers.",
+		"de": "Beachte, dass sie nur in alten Firefox-Browsern funktioniert."
+	}
+}

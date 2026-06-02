@@ -1,0 +1,113 @@
+{
+  "frames": {
+    "jetpack_idle": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 48
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 48
+      }
+    },
+    "jetpack_active": {
+      "frame": {
+        "x": 40,
+        "y": 0,
+        "w": 32,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 64
+      }
+    },
+    "jetpack_boost": {
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 32,
+        "h": 72
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 72
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 72
+      }
+    },
+    "fuel_can": {
+      "frame": {
+        "x": 0,
+        "y": 80,
+        "w": 24,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 24,
+        "h": 32
+      }
+    },
+    "fuel_gauge": {
+      "frame": {
+        "x": 40,
+        "y": 80,
+        "w": 80,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 80,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 80,
+        "h": 20
+      }
+    }
+  },
+  "meta": {
+    "image": "jetpack_spritesheet.png",
+    "size": {
+      "w": 256,
+      "h": 256
+    },
+    "scale": 1,
+    "format": "RGBA"
+  }
+}

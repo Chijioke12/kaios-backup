@@ -1,0 +1,17 @@
+name: K File Manager
+description: File Manager for KaiOS
+icon: "https://cdn.discordapp.com/attachments/472144650128457738/839176477325000734/b2gffff.png"
+website: "https://github.com/arma7x/b2gfm"
+download:
+    url: "https://raw.githubusercontent.com/cyan-2048/_store/main/arma7x/k%20file/k%20file.zip"
+    manifest: "https://raw.githubusercontent.com/cyan-2048/_store/main/arma7x/k%20file/manifest.webapp"
+type: privileged
+license: MIT
+author: arma7x <ahmadmuhamad101@gmail.com>
+maintainer: Cyan <cyankindasus1@outlook.com>
+has_ads: false
+has_tracking: false
+meta:
+    tags: filemanager; files;
+    categories:
+        - utility

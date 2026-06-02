@@ -1,0 +1,349 @@
+═══════════════════════════════════════════════════════════════════════════════
+  SNAKE EVOLVED — KaiOS Game Build Instructions for Gemini CLI
+  Target: KaiOS 2.4-inch feature phone, 240×320 display
+  Engine: Phaser CE 2.20.0  (CDN: https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.20.0/phaser.min.js)
+═══════════════════════════════════════════════════════════════════════════════
+
+BUILD TWO FILES:
+  1. index.html      — the complete game
+  2. manifest.webapp — KaiOS app manifest
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1.  MANIFEST.WEBAPP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "name": "Snake Evolved",
+  "description": "Epic snake game with 4 biomes and 3 snake tiers",
+  "launch_path": "/index.html",
+  "icons": { "56": "/icon.png", "112": "/icon.png" },
+  "developer": { "name": "Chiboy Dev", "url": "" },
+  "default_locale": "en",
+  "type": "web",
+  "permissions": { "storage": { "description": "Save high scores" } }
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2.  SCREEN & RENDERER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Width:     240
+Height:    320
+Renderer:  Phaser.CANVAS
+FPS cap:   30
+Scale:     Phaser.ScaleManager.SHOW_ALL, pageAlignHorizontally + pageAlignVertically
+BG color:  #0a0c1a
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3.  ASSET PATHS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sprite sheet:  snake_sprites.png
+Atlas JSON:    snake_atlas.json
+Audio folder:  snake_audio/
+
+Load:
+  game.load.atlasJSONHash('sprites', 'snake_sprites.png', 'snake_atlas.json');
+  game.load.audio('eat',          'snake_audio/eat.wav');
+  game.load.audio('eat_golden',   'snake_audio/eat_golden.wav');
+  game.load.audio('eat_bonus',    'snake_audio/eat_bonus.wav');
+  game.load.audio('powerup',      'snake_audio/powerup.wav');
+  game.load.audio('death',        'snake_audio/death.wav');
+  game.load.audio('levelup',      'snake_audio/levelup.wav');
+  game.load.audio('biome_change', 'snake_audio/biome_change.wav');
+  game.load.audio('ui_click',     'snake_audio/ui_click.wav');
+  game.load.audio('wall_buzz',    'snake_audio/wall_buzz.wav');
+  game.load.audio('music_menu',   'snake_audio/music_menu.wav');
+  game.load.audio('music_lab',    'snake_audio/music_lab.wav');
+  game.load.audio('music_jungle', 'snake_audio/music_jungle.wav');
+  game.load.audio('music_space',  'snake_audio/music_space.wav');
+  game.load.audio('music_lava',   'snake_audio/music_lava.wav');
+  game.load.audio('music_gameover','snake_audio/music_gameover.wav');
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4.  GAME STATES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Boot     → set scale, add all states, start Preload
+Preload  → show loading bar, load all assets, start Menu
+Menu     → show menu sprite, biome selector dots, best score, start on OK
+Game     → main gameplay (see section 5)
+GameOver → show gameover sprite, score, retry on OK
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5.  GAME LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HUD bar:    y=0   to y=28   (height 28, sprite 'hud')
+Play area:  y=28  to y=314  (height 286)
+Softkey:    y=314 to y=320  (height 6, plain dark bar)
+
+Grid:       TILE_SIZE = 16px
+Grid cols:  240/16 = 15
+Grid rows:  286/16 = 17 (floor)
+Grid origin: x=0, y=28
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6.  SNAKE DATA MODEL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+snake = {
+  segments: [{gx, gy}]   // grid positions, [0]=head
+  direction: 'right'     // 'right','left','up','down'
+  nextDir:   'right'     // buffered input
+  tier: 1                // 1=worm, 2=serpent(≥15 len), 3=dragon(≥30 len)
+  length: 3
+  growing: 0             // segments to add on next move
+}
+
+Move timer: starts 250ms, speeds up by 5ms every food eaten, min 100ms.
+
+On each tick:
+  1. direction = nextDir (if not opposite)
+  2. Calculate newHead = head + direction
+  3. If newHead hits wall or self → death
+  4. Prepend newHead to segments
+  5. If newHead == food → eat(), growing++
+  6. If growing > 0 → growing-- (don't remove tail)
+  7. Else → remove last segment
+  8. Rebuild sprite display (see section 8)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7.  SPRITE SELECTION LOGIC
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tier suffix: T = 't1' | 't2' | 't3'
+
+HEAD:
+  frameName = 'head_' + T + '_' + direction
+  direction = snake.direction
+
+BODY SEGMENT (index i, 1 ≤ i ≤ len-2):
+  prev = segments[i-1], curr = segments[i], next = segments[i+1]
+  fromDir = direction curr→prev
+  toDir   = direction next→curr
+
+  If fromDir == toDir (straight):
+    frameName = (fromDir=='left'||fromDir=='right') ? 'body_h_'+T : 'body_v_'+T
+
+  If turning (corner):
+    Use this lookup table (fromDir_toDir → corner key):
+      right_down → corner_tl
+      right_up   → corner_bl
+      left_down  → corner_tr
+      left_up    → corner_br
+      down_right → corner_br
+      down_left  → corner_bl
+      up_right   → corner_tr
+      up_left    → corner_tl
+    frameName = cornerKey + '_' + T
+
+TAIL (last segment):
+  dir = direction from second-to-last to last
+  frameName = 'tail_' + T + '_' + dir
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8.  SPRITE DISPLAY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Use a Phaser.Group of pre-created Sprite objects (pool of 50).
+On each tick, reuse sprites from pool:
+  sprite.frameName = frameName
+  sprite.x = seg.gx * 16
+  sprite.y = 28 + seg.gy * 16
+  sprite.visible = true
+
+Hide unused pool sprites. Never destroy/create — only reuse.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9.  FOOD SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Food types & weights (random weighted pick):
+  apple         60%   score=10   grow=1   sound='eat'
+  cherry        15%   score=20   grow=1   sound='eat'
+  strawberry    10%   score=30   grow=1   sound='eat'
+  golden_apple   8%   score=50   grow=2   sound='eat_golden'
+  bonus_orb      7%   score=100  grow=0   sound='eat_bonus'
+
+Spawn rules:
+  - Never on snake body
+  - Never on walls or power-ups
+  - Random empty grid cell
+  - Max 2 food items at once
+  - Bonus orb despawns after 8 seconds with flashing animation (tween alpha 1→0.3 loop)
+
+On eat:
+  1. Play sound
+  2. Spawn eat particles (5× ptcl_eat from atlas, tween up+fade)
+  3. Show score popup (+10, +20 etc) at food position, tween up+fade
+  4. Update score in HUD
+  5. Spawn new food
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. POWER-UP SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Spawn: one power-up every 20 food eaten, random empty cell.
+Despawn after 12 seconds (flash last 3 seconds).
+
+  pu_ghost    duration=8s   effect: snake can pass through walls (wraps) + semi-transparent (alpha=0.6)
+  pu_magnet   duration=6s   effect: food automatically moves toward snake head (tween food toward head each tick)
+  pu_speed    duration=5s   effect: move timer = max(80, moveInterval-60)
+  pu_shield   duration=8s   effect: one death blocked (snake flashes on would-be death, shield consumed)
+
+Active power-up:
+  - Show name + timer bar below HUD (small text + shrinking bar tween)
+  - Play 'powerup' sound on collect
+  - On expire: brief flash effect on snake
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. BIOME SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Biome changes every 500 points.
+Order: lab → jungle → space → lava → lab ... (cycles)
+
+Each biome uses a 15×17 tiled background:
+  wall tiles:  top row (gy=0), bottom row (gy=16), left col (gx=0), right col (gx=14)
+               frameName = biomeKey + '_wall'   (e.g. 'lab_wall')
+  floor tiles: inner cells
+               frameName = biomeKey + '_floor'
+  deco tiles:  random ~12% of inner cells (seeded per biome entry)
+               frameName = biomeKey + '_deco'
+
+On biome change:
+  1. Play 'biome_change' sound
+  2. Show banner sprite (e.g. 'banner_lab') centered, tween in from top, hold 1.5s, tween out up
+  3. Fade out current music, fade in new biome music (0.3s crossfade)
+  4. Redraw background tiles
+
+Biome music map:
+  lab    → music_lab
+  jungle → music_jungle
+  space  → music_space
+  lava   → music_lava
+
+Snake collision with wall tiles: death (unless ghost active → wrap to opposite side)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. SNAKE TIER SYSTEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Tier 1 (worm):    length 1–14    sprites: head/body/corner/tail _t1
+Tier 2 (serpent): length 15–29   sprites: head _t2, body/corner/tail _t1 (keep body)
+Tier 3 (dragon):  length 30+     sprites: head _t3, body/corner/tail still _t1
+
+On tier upgrade:
+  1. Play 'levelup' sound
+  2. Show 'levelup' sprite, tween scale 0→1.2→1, hold 1s, fade out
+  3. Brief camera shake: game.camera.shake(0.01, 200)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. SCORING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+score += food.score * combo
+combo: eating food within 4 seconds of last eat increments combo (max ×5)
+       combo resets on timeout, shown as "x2", "x3" etc in score popup
+
+Persistent: localStorage('snakeEvolved_best')  = highest score ever
+            localStorage('snakeEvolved_biome') = last chosen biome (menu selector)
+
+HUD display:
+  Left box:  score (live)
+  Middle:    snake length
+  Right:     biome icon + pause (||)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. KAIOS CONTROLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Key codes:
+  UP    = 38   → snake nextDir = 'up'    (if current != 'down')
+  DOWN  = 40   → snake nextDir = 'down'  (if current != 'up')
+  LEFT  = 37   → snake nextDir = 'left'  (if current != 'right')
+  RIGHT = 39   → snake nextDir = 'right' (if current != 'left')
+  OK    = 13   → Menu: start game  |  Game: pause/resume  |  GameOver: retry
+  BACK  = 8    → Menu: exit app    |  Game: pause         |  GameOver: back to menu
+  CALL  = n/a
+  F1    = 112  → pause (softkey left)
+  F2    = 113  → mute music toggle (softkey right)
+
+Softkey bar HTML overlay (position: fixed, bottom: 0, width: 100%):
+  Left:  "PAUSE"   (grey)
+  Center: ""
+  Right: "MUTE" / "UNMUTE"   (grey)
+  Style: background #111, height 20px, font-size 10px, color #aaa
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+15. DEATH SEQUENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Play 'wall_buzz' (wall) or 'death' (self-collision)
+2. Snake head flashes red (tween alpha 1→0 ×3, 80ms each)
+3. Spawn 8× ptcl_spark at head position, explode outward
+4. Camera shake: game.camera.shake(0.02, 300)
+5. Wait 600ms
+6. Fade music out (0.4s)
+7. Play 'music_gameover'
+8. Transition to GameOver state (pass score, best)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+16. MENU STATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Background: tiled with selected biome tiles (fills screen)
+- Centered: 'menu' sprite (200×120) at x=20, y=80
+- Idle animation: snake demo — small 5-segment t1 worm circles around the menu panel
+  (pre-computed path, loops, uses same sprite pool approach)
+- Biome selector: 4 dot sprites (badge colours from atlas biome_badge areas)
+  LEFT/RIGHT arrows cycle selection, highlight active with scale tween 1→1.2
+- OK starts game with selected biome
+- Music: music_menu loops
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+17. MEMORY BUDGET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+KaiOS hard limit: ~512KB JS heap.
+
+  Object pools (never create during gameplay):
+    snake sprites:   50 Phaser.Sprite
+    particles:       20 Phaser.Sprite
+    score popups:     5 Phaser.Text
+    background tiles: 15×17 = 255 Phaser.Sprite (pre-created, frameName changes per biome)
+    food sprites:     2 Phaser.Sprite
+    powerup sprites:  1 Phaser.Sprite
+
+  Audio: load all upfront, use game.sound.play() — do NOT create new Sound objects mid-game.
+  Text:  use Phaser.Text with fixedToCamera=false, reuse text objects.
+  Tweens: always tween.stop() before restarting. Use game.tweens.removeAll() on state change.
+
+━━━━━━━━━━━━━━━════════════════════════════════════════════════════════════════
+18. COMPLETE index.html STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Snake Evolved</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#000; overflow:hidden; }
+    canvas { display:block; margin:0 auto; }
+    #softkey {
+      position:fixed; bottom:0; width:100%; height:20px;
+      background:#111; display:flex; justify-content:space-between;
+      align-items:center; padding:0 8px; font-size:10px; color:#aaa;
+      font-family: sans-serif; z-index:10;
+    }
+  </style>
+</head>
+<body>
+  <div id="softkey">
+    <span id="sk-left">PAUSE</span>
+    <span></span>
+    <span id="sk-right">MUTE</span>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser-ce/2.20.0/phaser.min.js"></script>
+  <script>
+    // === CONSTANTS ===
+    var W=240, H=320, TILE=16, COLS=15, ROWS=17;
+    var GRID_Y=28; // top of play area
+
+    // === GAME STATES: Boot, Preload, Menu, Game, GameOver ===
+    // ... (full implementation)
+  </script>
+</body>
+</html>
+
+══════════════════════════════════════════════════════════════════════════════
+END OF BUILD INSTRUCTIONS
+Deliver: index.html + manifest.webapp
+All asset paths are relative. Game must work when index.html is opened directly.
+══════════════════════════════════════════════════════════════════════════════

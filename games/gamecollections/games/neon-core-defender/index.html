@@ -1,0 +1,250 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Core Defender</title>
+    <style>
+        /* KaiOS & Feature Phone Optimized CSS + Gamepad Layout */
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        body { 
+            background-color: #050a15; 
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none; 
+        }
+        
+        #console-wrapper {
+            background: #111;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 2px 5px rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        #device-container {
+            width: 240px;
+            height: 320px;
+            position: relative;
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        #gameCanvas {
+            display: block;
+            background: #020205;
+        }
+
+        /* UI Overlays */
+        .screen {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(2, 2, 5, 0.9);
+            z-index: 10;
+        }
+        .hidden { display: none !important; }
+        
+        .title { font-size: 20px; font-weight: bold; color: #fff; margin-bottom: 20px; text-align: center; letter-spacing: 1px; }
+        .title span:nth-child(1) { color: #00FFFF; text-shadow: 0 0 5px #00FFFF; }
+        .title span:nth-child(2) { color: #FF00FF; text-shadow: 0 0 5px #FF00FF; }
+        
+        .menu-item { font-size: 16px; margin: 8px 0; color: #888; transition: 0.1s; }
+        .menu-item.active { color: #fff; font-weight: bold; text-shadow: 0 0 5px #fff; transform: scale(1.1); }
+        
+        .hud-display {
+            position: absolute;
+            top: 5px; left: 5px; right: 5px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px; font-weight: bold; color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            z-index: 5;
+        }
+
+        /* Energy Bar */
+        #energy-bar-container {
+            width: 80px; height: 10px;
+            background: #222; border: 1px solid #444;
+            border-radius: 5px; overflow: hidden;
+            margin-top: 2px;
+        }
+        #energy-bar-fill {
+            height: 100%; width: 0%;
+            background: #FFFF00;
+            transition: width 0.1s;
+        }
+        .energy-full { background: #00FFFF !important; box-shadow: 0 0 5px #00FFFF; }
+
+        /* KaiOS Softkey Bar */
+        #softkey-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 25px;
+            background: #111a24;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #ccc;
+            border-top: 1px solid #333;
+            z-index: 20;
+        }
+        .sk-btn { flex: 1; text-align: center; overflow: hidden; white-space: nowrap; cursor: pointer; padding: 4px 0;}
+        .sk-btn:active { background: #333; }
+        #sk-left { text-align: left; padding-left: 4px; }
+        #sk-right { text-align: right; padding-right: 4px; }
+        #sk-center { color: #fff; font-weight: 900; text-transform: uppercase; }
+
+        /* On-Screen D-Pad Controller */
+        #controller-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 260px;
+            padding: 0 10px;
+        }
+        
+        #dpad {
+            display: grid;
+            grid-template-columns: 50px 50px 50px;
+            grid-template-rows: 50px 50px 50px;
+            gap: 2px;
+        }
+        
+        .c-btn {
+            background: #2a2a35;
+            border: 2px solid #111;
+            border-radius: 8px;
+            color: #888;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 6px rgba(0,0,0,0.5);
+            transition: background 0.05s, transform 0.05s;
+        }
+        
+        .c-btn:active {
+            background: #445;
+            transform: translateY(2px);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.5);
+            color: #fff;
+        }
+        
+        #btn-up { grid-column: 2; grid-row: 1; border-radius: 8px 8px 4px 4px; }
+        #btn-left { grid-column: 1; grid-row: 2; border-radius: 8px 4px 4px 8px; }
+        #btn-right { grid-column: 3; grid-row: 2; border-radius: 4px 8px 8px 4px; }
+        #btn-down { grid-column: 2; grid-row: 3; border-radius: 4px 4px 8px 8px; }
+        
+        /* The Action Button */
+        #action-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+        }
+        
+        #btn-ok { 
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00FFFF, #0055FF);
+            border: 3px solid #111;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: inset 0 3px 5px rgba(255,255,255,0.4), 0 5px 10px rgba(0,0,0,0.6);
+            transition: transform 0.05s, box-shadow 0.05s;
+        }
+        
+        #btn-ok:active {
+            transform: scale(0.92) translateY(2px);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div id="console-wrapper">
+    <div id="device-container">
+        <div class="hud-display">
+            <span id="score">0</span>
+            <div id="energy-bar-container"><div id="energy-bar-fill"></div></div>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Menu Screen -->
+        <div id="menu-screen" class="screen">
+            <div class="title"><span>CORE</span> <span>DEFENDER</span></div>
+            <div class="menu-item active" id="menu-play">Start Defence</div>
+            <div class="menu-item" id="menu-help">How to Play</div>
+            <div style="font-size:12px; margin-top:15px; color:#aaa;">Best: <span id="menu-highscore">0</span></div>
+            <div style="font-size:10px; margin-top:5px; color:#555;">Block Red. Absorb Yellow.</div>
+        </div>
+
+        <!-- Help Screen -->
+        <div id="help-screen" class="screen hidden">
+            <div class="title" style="font-size:16px;">HOW TO PLAY</div>
+            <div style="font-size:12px; text-align:left; padding:0 15px; line-height:1.5;">
+                <span style="color:#00FFFF">D-Pad ▲▼◀▶ :</span> Rotate Shield<br>
+                <span style="color:#FF00FF">OK Button :</span> Shockwave (When Full)<br><br>
+                1. Put Shield IN THE WAY to block <span style="color:#FF4444">Red Enemies</span>.<br>
+                2. Put Shield OUT OF THE WAY to let the Core absorb <span style="color:#FFFF00">Yellow Energy</span>.<br>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="screen hidden">
+            <div class="title" style="color: #FF4444;">CORE BREACHED</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">Score: <span id="final-score">0</span></div>
+            <div id="highscore-alert" style="font-size: 12px; color: #00FFFF; font-weight:bold; margin-bottom: 15px; height: 15px;"></div>
+            <div class="menu-item active">Restart</div>
+        </div>
+
+        <!-- Softkeys Overlay -->
+        <div id="softkey-bar">
+            <div class="sk-btn" id="sk-left">Exit</div>
+            <div class="sk-btn" id="sk-center">BLAST</div>
+            <div class="sk-btn" id="sk-right"></div>
+        </div>
+    </div>
+
+    <!-- On-Screen D-Pad Controls -->
+    <div id="controller-area">
+        <div id="dpad">
+            <div class="c-btn" id="btn-up">▲</div>
+            <div class="c-btn" id="btn-left">◀</div>
+            <div style="grid-column: 2; grid-row: 2; display: flex; justify-content: center; align-items: center; color: #444; font-size: 10px;">🎮</div>
+            <div class="c-btn" id="btn-right">▶</div>
+            <div class="c-btn" id="btn-down">▼</div>
+        </div>
+        <div id="action-btn-container">
+            <div id="btn-ok">OK</div>
+        </div>
+    </div>
+</div>
+
+<script src="./index-inline-1.js" type="module"></script>
+
+</body></html>

@@ -1,0 +1,447 @@
+'use strict';
+
+function _regenerator() {
+  /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */var e,
+    t,
+    r = "function" == typeof Symbol ? Symbol : {},
+    n = r.iterator || "@@iterator",
+    o = r.toStringTag || "@@toStringTag";
+  function i(r, n, o, i) {
+    var c = n && n.prototype instanceof Generator ? n : Generator,
+      u = Object.create(c.prototype);
+    return _regeneratorDefine2(u, "_invoke", function (r, n, o) {
+      var i,
+        c,
+        u,
+        f = 0,
+        p = o || [],
+        y = !1,
+        G = {
+          p: 0,
+          n: 0,
+          v: e,
+          a: d,
+          f: d.bind(e, 4),
+          d: function d(t, r) {
+            return i = t, c = 0, u = e, G.n = r, a;
+          }
+        };
+      function d(r, n) {
+        for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) {
+          var o,
+            i = p[t],
+            d = G.p,
+            l = i[2];
+          r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0));
+        }
+        if (o || r > 1) return a;
+        throw y = !0, n;
+      }
+      return function (o, p, l) {
+        if (f > 1) throw TypeError("Generator is already running");
+        for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) {
+          i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u);
+          try {
+            if (f = 2, i) {
+              if (c || (o = "next"), t = i[o]) {
+                if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object");
+                if (!t.done) return t;
+                u = t.value, c < 2 && (c = 0);
+              } else 1 === c && (t = i["return"]) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1);
+              i = e;
+            } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break;
+          } catch (t) {
+            i = e, c = 1, u = t;
+          } finally {
+            f = 1;
+          }
+        }
+        return {
+          value: t,
+          done: y
+        };
+      };
+    }(r, o, i), !0), u;
+  }
+  var a = {};
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  t = Object.getPrototypeOf;
+  var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () {
+      return this;
+    }), t),
+    u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c);
+  function f(e) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e;
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () {
+    return this;
+  }), _regeneratorDefine2(u, "toString", function () {
+    return "[object Generator]";
+  }), (_regenerator = function _regenerator() {
+    return {
+      w: i,
+      m: f
+    };
+  })();
+}
+function _regeneratorDefine2(e, r, n, t) {
+  var i = Object.defineProperty;
+  try {
+    i({}, "", {});
+  } catch (e) {
+    i = 0;
+  }
+  _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) {
+    function o(r, n) {
+      _regeneratorDefine2(e, r, function (e) {
+        return this._invoke(r, n, e);
+      });
+    }
+    r ? i ? i(e, r, {
+      value: n,
+      enumerable: !t,
+      configurable: !t,
+      writable: !t
+    }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2));
+  }, _regeneratorDefine2(e, r, n, t);
+}
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value;
+  } catch (n) {
+    return void e(n);
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o);
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments;
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e);
+      function c(n) {
+        asyncGeneratorStep(a, r, o, c, i, "next", n);
+      }
+      function i(n) {
+        asyncGeneratorStep(a, r, o, c, i, "throw", n);
+      }
+      c(void 0);
+    });
+  };
+}
+var REGISTRY_URL = 'https://raw.githubusercontent.com/Chijioke12/Open-KaiStore-Registry/refs/heads/main/apps.json';
+
+// Dynamically derive GitHub Pages base from REGISTRY_URL
+var REGISTRY_PAGES_BASE = function () {
+  var match = REGISTRY_URL.match(/githubusercontent\.com\/([^\/]+)\/([^\/]+)/);
+  if (match) {
+    return "https://".concat(match[1], ".github.io/").concat(match[2]);
+  }
+  return 'https://chijioke12.github.io/Open-KaiStore-Registry'; // Fallback
+}();
+var AppStore = {
+  apps: [],
+  currentIndex: 0,
+  requestTimeoutMs: 15000,
+  _lastAlertKey: '',
+  alertOnce: function alertOnce(title, detail) {
+    try {
+      var msg = detail ? "".concat(title, "\n\n").concat(detail) : title;
+      var key = msg.slice(0, 300);
+      if (key === this._lastAlertKey) return;
+      this._lastAlertKey = key;
+      alert(msg);
+    } catch (e) {}
+  },
+  fetchText: function fetchText(url) {
+    var timeoutMs = this.requestTimeoutMs;
+
+    // Prefer XHR with mozSystem when available (KaiOS systemXHR permission).
+    var canUseXhr = typeof XMLHttpRequest === 'function';
+    if (canUseXhr) {
+      return new Promise(function (resolve, reject) {
+        var xhr;
+        try {
+          xhr = new XMLHttpRequest();
+        } catch (e) {
+          reject(e);
+          return;
+        }
+        try {
+          xhr.mozSystem = true;
+          xhr.mozAnon = true;
+        } catch (e) {}
+        xhr.open('GET', url, true);
+        xhr.timeout = timeoutMs;
+        xhr.responseType = 'text';
+        xhr.onload = function () {
+          var ok = xhr.status >= 200 && xhr.status < 300;
+          if (!ok) {
+            reject(new Error("HTTP ".concat(xhr.status, " for ").concat(url)));
+            return;
+          }
+          resolve(xhr.responseText || '');
+        };
+        xhr.onerror = function () {
+          return reject(new Error("Network error for ".concat(url)));
+        };
+        xhr.ontimeout = function () {
+          return reject(new Error("Timeout for ".concat(url)));
+        };
+        try {
+          xhr.send();
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    // Fallback to fetch in modern browsers.
+    if (typeof fetch === 'function') {
+      var controller = typeof AbortController === 'function' ? new AbortController() : null;
+      var timer = controller ? setTimeout(function () {
+        return controller.abort();
+      }, timeoutMs) : null;
+      return fetch(url, {
+        cache: 'no-store',
+        signal: controller ? controller.signal : undefined
+      }).then(function (response) {
+        if (!response.ok) throw new Error("HTTP ".concat(response.status, " for ").concat(url));
+        return response.text();
+      })["finally"](function () {
+        if (timer) clearTimeout(timer);
+      });
+    }
+    return Promise.reject(new Error('No HTTP client available'));
+  },
+  fetchJson: function () {
+    var _fetchJson = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(url) {
+      var text, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            _context.n = 1;
+            return this.fetchText(url);
+          case 1:
+            text = _context.v;
+            _context.p = 2;
+            return _context.a(2, JSON.parse(text));
+          case 3:
+            _context.p = 3;
+            _t = _context.v;
+            throw new Error("Invalid JSON from ".concat(url));
+          case 4:
+            return _context.a(2);
+        }
+      }, _callee, this, [[2, 3]]);
+    }));
+    function fetchJson(_x) {
+      return _fetchJson.apply(this, arguments);
+    }
+    return fetchJson;
+  }(),
+  init: function init() {
+    this.appList = document.getElementById('app-list');
+    if (!this.appList) return;
+    this.fetchApps();
+    this.setupEventListeners();
+  },
+  fetchApps: function () {
+    var _fetchApps = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2() {
+      var candidates, lastError, failures, _i, _candidates, url, data, apps, detail, _t2;
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.p = _context2.n) {
+          case 0:
+            if (this.appList) {
+              this.appList.innerHTML = '<div class="loading">Loading apps...</div>';
+            }
+            candidates = ['./apps.json', '/open-kaistore-registry/apps.json', '../open-kaistore-registry/apps.json', REGISTRY_URL];
+            lastError = null;
+            failures = [];
+            _i = 0, _candidates = candidates;
+          case 1:
+            if (!(_i < _candidates.length)) {
+              _context2.n = 7;
+              break;
+            }
+            url = _candidates[_i];
+            _context2.p = 2;
+            _context2.n = 3;
+            return this.fetchJson(url);
+          case 3:
+            data = _context2.v;
+            apps = data && Array.isArray(data.apps) ? data.apps : [];
+            if (!(apps.length === 0 && url !== candidates[candidates.length - 1])) {
+              _context2.n = 4;
+              break;
+            }
+            console.warn('Registry returned 0 apps from', url, '- trying next source');
+            return _context2.a(3, 6);
+          case 4:
+            this.apps = apps;
+            this.renderApps();
+            return _context2.a(2);
+          case 5:
+            _context2.p = 5;
+            _t2 = _context2.v;
+            lastError = _t2;
+            console.warn('Failed to fetch apps from', url, _t2);
+            failures.push("".concat(url, ": ").concat(_t2 && _t2.message ? _t2.message : String(_t2)));
+          case 6:
+            _i++;
+            _context2.n = 1;
+            break;
+          case 7:
+            console.error('Failed to fetch apps:', lastError);
+            detail = lastError && lastError.message ? " (".concat(lastError.message, ")") : '';
+            this.appList.innerHTML = "<div class=\"error\">Failed to load apps. Check connection.".concat(detail, "</div>");
+            if (failures.length) {
+              this.alertOnce('Failed to load apps', failures.slice(0, 4).join('\n'));
+            } else {
+              this.alertOnce('Failed to load apps', lastError && lastError.message ? lastError.message : '');
+            }
+          case 8:
+            return _context2.a(2);
+        }
+      }, _callee2, this, [[2, 5]]);
+    }));
+    function fetchApps() {
+      return _fetchApps.apply(this, arguments);
+    }
+    return fetchApps;
+  }(),
+  renderApps: function renderApps() {
+    var _this = this;
+    if (this.apps.length === 0) {
+      this.appList.innerHTML = '<div class="error">No apps found in registry.</div>';
+      return;
+    }
+    this.appList.innerHTML = '';
+    this.apps.forEach(function (app, index) {
+      var item = document.createElement('div');
+      item.className = 'app-item';
+      item.setAttribute('tabindex', '0');
+      item.innerHTML = "\n                <img class=\"app-icon\" src=\"".concat(app.icon || 'placeholder.png', "\">\n                <div class=\"app-info\">\n                    <div class=\"app-name\">").concat(app.name, "</div>\n                    <div class=\"app-author\">").concat(app.author, "</div>\n                </div>\n            ");
+      item.addEventListener('click', function () {
+        return _this.installApp(app);
+      });
+      _this.appList.appendChild(item);
+    });
+    this.focusItem(0);
+  },
+  focusItem: function focusItem(index) {
+    var items = this.appList.querySelectorAll('.app-item');
+    if (items[index]) {
+      items[index].focus();
+      try {
+        items[index].scrollIntoView({
+          block: 'center'
+        });
+      } catch (e) {
+        try {
+          items[index].scrollIntoView(false);
+        } catch (e2) {}
+      }
+      this.currentIndex = index;
+    }
+  },
+  setupEventListeners: function setupEventListeners() {
+    var _this2 = this;
+    window.addEventListener('keydown', function (e) {
+      switch (e.key) {
+        case 'ArrowDown':
+          _this2.focusItem(Math.min(_this2.currentIndex + 1, _this2.apps.length - 1));
+          e.preventDefault();
+          break;
+        case 'ArrowUp':
+          _this2.focusItem(Math.max(_this2.currentIndex - 1, 0));
+          e.preventDefault();
+          break;
+        case 'Enter':
+          _this2.installApp(_this2.apps[_this2.currentIndex]);
+          break;
+      }
+    });
+  },
+  installApp: function installApp(app) {
+    if (!app) return;
+    console.log('Installing:', app.name, app);
+    if (navigator.mozApps) {
+      var request = null;
+      try {
+        if (app.type === 'packaged') {
+          // 1. Prefer manual manifest_url
+          // 2. Fallback to direct download_url (ZIP)
+          // 3. Last resort: auto-generated Pages manifest URL
+          var manifestUrl = app.manifest_url || '';
+          var targetUrl = manifestUrl || app.download_url || (app.id ? "".concat(REGISTRY_PAGES_BASE, "/manifests/").concat(app.id, ".json") : '');
+          if (!targetUrl) {
+            throw new Error('No installable URL found for this package.');
+          }
+          if (navigator.mozApps.installPackage && typeof navigator.mozApps.installPackage === 'function') {
+            request = navigator.mozApps.installPackage(targetUrl);
+          } else if (navigator.mozApps.mgmt && navigator.mozApps.mgmt.installPackage && typeof navigator.mozApps.mgmt.installPackage === 'function') {
+            request = navigator.mozApps.mgmt.installPackage(targetUrl);
+          } else if (targetUrl.endsWith('.json') && navigator.mozApps.install && typeof navigator.mozApps.install === 'function') {
+            request = navigator.mozApps.install(targetUrl);
+          } else {
+            throw new Error('This device does not support packaged installs. Ensure a valid manifest URL exists.');
+          }
+        } else {
+          var hostedUrl = app.manifest_url || '';
+          if (!hostedUrl) {
+            throw new Error('Manifest URL is missing for this hosted app.');
+          }
+          if (navigator.mozApps.install && typeof navigator.mozApps.install === 'function') {
+            request = navigator.mozApps.install(hostedUrl);
+          } else if (navigator.mozApps.mgmt && navigator.mozApps.mgmt.install && typeof navigator.mozApps.mgmt.install === 'function') {
+            request = navigator.mozApps.mgmt.install(hostedUrl);
+          } else {
+            throw new Error('No hosted install API available');
+          }
+        }
+      } catch (e) {
+        var detail = e && e.message ? e.message : String(e);
+        alert("Install error:\n\n".concat(detail));
+        return;
+      }
+      if (!request) {
+        alert('Internal error: Request object not created.');
+        return;
+      }
+      request.onsuccess = function () {
+        alert('Installation started for ' + app.name);
+      };
+      request.onerror = function () {
+        alert('Installation failed: ' + this.error.name);
+      };
+    } else {
+      alert('App management API not available. This app must be privileged.');
+    }
+  }
+};
+window.onerror = function (message, source, lineno, colno, error) {
+  try {
+    var el = document.getElementById('app-list');
+    if (!el) return;
+    var msg = error && error.message ? error.message : message || 'Unknown error';
+    el.innerHTML = "<div class=\"error\">App error: ".concat(msg, "</div>");
+    try {
+      AppStore.alertOnce('App error', "".concat(msg, "\n").concat(source || '', ":").concat(lineno || 0));
+    } catch (e) {}
+  } catch (e) {}
+};
+window.onload = function () {
+  try {
+    AppStore.init();
+  } catch (e) {
+    var el = document.getElementById('app-list');
+    if (el) el.innerHTML = "<div class=\"error\">Init failed: ".concat(e && e.message ? e.message : 'Unknown error', "</div>");
+    try {
+      AppStore.alertOnce('Init failed', e && e.message ? e.message : 'Unknown error');
+    } catch (e2) {}
+  }
+};

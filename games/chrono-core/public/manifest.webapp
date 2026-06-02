@@ -1,0 +1,22 @@
+{
+  "name": "Chrono-Core",
+  "description": "A high-stakes time-dilation space shooter.",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/icons/icon128.png"
+  },
+  "developer": {
+    "name": "Gemini CLI",
+    "url": "http://example.com"
+  },
+  "type": "web",
+  "permissions": {},
+  "locales": {
+    "en-US": {
+      "name": "Chrono-Core",
+      "description": "A high-stakes time-dilation space shooter."
+    }
+  },
+  "default_locale": "en-US",
+  "fullscreen": "true"
+}

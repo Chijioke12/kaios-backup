@@ -1,0 +1,39 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "dev:chromajump": "vite games/chromajump -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:chromajump": "vite build games/chromajump -c vite.config.js",
+    "dev:neon-core-defender": "vite games/neon-core-defender -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:neon-core-defender": "vite build games/neon-core-defender -c vite.config.js",
+    "dev:neon-echo-jumper": "vite games/neon-echo-jumper -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:neon-echo-jumper": "vite build games/neon-echo-jumper -c vite.config.js",
+    "dev:neon-quantum-shift": "vite games/neon-quantum-shift -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:neon-quantum-shift": "vite build games/neon-quantum-shift -c vite.config.js",
+    "dev:neonoverdrive": "vite games/neonoverdrive -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:neonoverdrive": "vite build games/neonoverdrive -c vite.config.js",
+    "dev:pulsejumper": "vite games/pulsejumper -c vite.config.js --port=3000 --host=0.0.0.0",
+    "build:pulsejumper": "vite build games/pulsejumper -c vite.config.js",
+    "extract-js": "node scripts/extract-js.js",
+    "generate-icons": "node scripts/generate-icons.js",
+    "build:omnisd": "npm run generate-icons && node scripts/build-omnisd.js"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.17",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^6.1.1",
+    "archiver": "^8.0.0",
+    "cheerio": "^1.2.0",
+    "esbuild": "^0.25.0",
+    "glob": "^13.0.6",
+    "terser": "^5.47.1"
+  }
+}

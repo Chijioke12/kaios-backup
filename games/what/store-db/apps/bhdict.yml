@@ -1,0 +1,24 @@
+name: Medical Dictionary
+description: Simple Lightweight Online Medical Dictionary
+icon: https://gitlab.com/musky603/bh-apps/-/raw/master/icdict112.png
+# screenshots are optional
+# screenshots:
+license: Unknown
+# website is optional
+# website: https://u.nu/bhdict
+# git repo is optional
+git_repo: https://github.com/musky603/E-M-Dictionary/
+download:
+  url: https://gitlab.com/musky603/bh-apps/-/raw/master/medidictV1.10.zip
+  manifest: https://gitlab.com/banana-hackers/store-db/-/raw/master/apps/bhdict.json
+author:  Fanofgk<http://easyonlineshop.rf.gd>
+maintainer: Fanofgk<http://easyonlineshop.rf.gd>
+has_tracking: false
+has_ads: false
+# donation is optional
+donation: https://www.paypal.me/IDevik
+meta:
+  tags: Dictionary; Medical Dictionary
+  categories:
+   - education
+type: privileged

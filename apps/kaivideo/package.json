@@ -1,0 +1,17 @@
+{
+  "name": "kaivideo",
+  "version": "1.0.0",
+  "description": "A feature-rich video player for KaiOS.",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1",
+    "serve": "npx http-server -p 8080 -c-1",
+    "build": "node scripts/build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "http-server": "^14.1.1"
+  }
+}

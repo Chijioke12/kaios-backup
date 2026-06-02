@@ -1,0 +1,23 @@
+{
+  "name": "Jetpack KaiOS",
+  "description": "Jetpack Joyride style game for KaiOS",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/assets/icon-128.png"
+  },
+  "developer": {
+    "name": "Gemini CLI",
+    "url": "https://github.com/google/gemini-cli"
+  },
+  "type": "web",
+  "permissions": {},
+  "locales": {
+    "en-US": {
+      "name": "Jetpack KaiOS",
+      "description": "Jetpack Joyride style game for KaiOS"
+    }
+  },
+  "default_locale": "en-US",
+  "fullscreen": "true",
+  "orientation": ["portrait-primary"]
+}

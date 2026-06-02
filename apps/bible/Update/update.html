@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4B0082">
+    <title>KaiOS Bible</title>
+    <!-- Global Error Handler for KaiOS Debugging -->
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            alert("App Error: " + message + "\nLine: " + lineno);
+            return false;
+        };
+    </script>
+    <style>
+        /* --- KaiOS Base Theme --- */
+        :root {
+            --kai-header-bg: #4B0082; /* Deep purple */
+            --kai-header-text: #FFFFFF;
+            --kai-bg: #FFFFFF;
+            --kai-text: #333333;
+            --kai-focus-bg: #8A2BE2; /* Purple highlight */
+            --kai-focus-text: #FFFFFF;
+            --kai-softkey-bg: #EAEAEA;
+            --kai-softkey-text: #333333;
+            --kai-border: #CCCCCC;
+            --kai-loader: #4B0082;
+            --kai-error: #D32F2F;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Open Sans', system-ui, sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- Device Shell --- */
+        .device-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        #kaios-device {
+            width: 240px;
+            height: 320px;
+            background-color: var(--kai-bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 4px solid #222;
+        }
+
+        /* --- UI Components --- */
+        #header {
+            height: 32px;
+            background-color: var(--kai-header-bg);
+            color: var(--kai-header-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        /* Interactive Dynamic Search Header Bar */
+        #search-container {
+            display: none;
+            background-color: #F5F5F5;
+            padding: 6px;
+            border-bottom: 1px solid var(--kai-border);
+            box-sizing: border-box;
+            z-index: 9;
+        }
+
+        #search-input {
+            width: 100%;
+            height: 24px;
+            padding: 0 6px;
+            font-size: 12px;
+            border: 1.5px solid var(--kai-border);
+            border-radius: 4px;
+            outline: none;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            color: #000000;
+        }
+
+        #search-input.focused {
+            border-color: var(--kai-focus-bg);
+            box-shadow: 0 0 3px rgba(138, 43, 226, 0.5);
+        }
+
+        /* Content Area */
+        #main-content {
+            flex: 1;
+            overflow-y: hidden;
+            background-color: var(--kai-bg);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* General List Container */
+        #list-container {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            position: relative; /* Critical for offsetTop calculations */
+        }
+        #list-container::-webkit-scrollbar { display: none; }
+
+        .list-item {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--kai-border);
+            color: var(--kai-text);
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+            transition: background-color 0.1s;
+        }
+
+        .list-item.focused {
+            background-color: var(--kai-focus-bg);
+            color: var(--kai-focus-text);
+            font-weight: bold;
+        }
+
+        /* Menu Item Layout with Subtitles */
+        .menu-item {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--kai-border);
+            color: var(--kai-text);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .menu-item.focused {
+            background-color: var(--kai-focus-bg);
+            color: var(--kai-focus-text);
+        }
+
+        .menu-title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .menu-sub {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* Grid for Chapters */
+        #grid-container {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            align-content: start;
+            scrollbar-width: none;
+            position: relative; /* Critical for offsetTop calculations */
+        }
+        #grid-container::-webkit-scrollbar { display: none; }
+
+        .grid-item {
+            background: #f4f4f4;
+            color: var(--kai-text);
+            border: 1px solid var(--kai-border);
+            border-radius: 4px;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+
+        .grid-item.focused {
+            background-color: var(--kai-focus-bg);
+            color: var(--kai-focus-text);
+            border-color: var(--kai-focus-bg);
+        }
+
+        /* Reader View - Verse List Layout */
+        #reader-container {
+            display: none;
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            box-sizing: border-box;
+            position: relative;
+        }
+        #reader-container::-webkit-scrollbar { display: none; }
+
+        /* Left-Side Verse Structure */
+        .verse-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .verse-number {
+            flex-shrink: 0;
+            width: 22px;
+            height: 18px;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--kai-focus-bg);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            margin-top: 3px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+
+        .verse-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--kai-text);
+            word-break: break-word;
+        }
+
+        /* Network Error Screen Container */
+        #error-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            box-sizing: border-box;
+            background: #FFF5F5;
+        }
+
+        .error-icon {
+            color: var(--kai-error);
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .error-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .error-msg {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Dynamic Popup Warnings */
+        #modal-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 30;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 2px solid var(--kai-focus-bg);
+        }
+
+        .modal-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--kai-error);
+            margin-bottom: 6px;
+        }
+
+        .modal-body {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        /* Loader */
+        #loader {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 20;
+            width: 120px;
+        }
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--kai-border);
+            border-top-color: var(--kai-loader);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        #loader-text {
+            font-size: 12px;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #loader-status {
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Softkey Bar */
+        #softkey-bar {
+            height: 30px;
+            background-color: var(--kai-softkey-bg);
+            border-top: 1px solid var(--kai-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--kai-softkey-text);
+            text-transform: uppercase;
+            z-index: 10;
+        }
+        .softkey { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+        #softkey-left { text-align: left; }
+        #softkey-center { text-align: center; font-weight: 800; font-size: 13px; color: var(--kai-focus-bg); }
+        #softkey-right { text-align: right; }
+
+        /* --- Virtual Keypad (For Desktop Testing) --- */
+        .keypad {
+            background: #2a2a40;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            border: 2px solid #3d3d5c;
+        }
+        .softkeys-row { display: flex; justify-content: space-between; width: 180px; }
+        .d-pad-container { position: relative; width: 140px; height: 140px; background: #1a1a2e; border-radius: 50%; border: 2px solid #3d3d5c; }
+        .ctrl-btn { background: #444466; border: none; color: white; font-weight: bold; font-size: 14px; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 0 #222233; transition: all 0.1s; }
+        .ctrl-btn:active { transform: translateY(4px); box-shadow: 0 0px 0 #222233; background: var(--kai-focus-bg); }
+        .sk-btn { width: 60px; height: 35px; border-radius: 20px; }
+        .d-btn { position: absolute; width: 40px; height: 40px; background: #444466; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: none; color: white; box-shadow: inset 0 0 5px rgba(0,0,0,0.3); cursor: pointer; }
+        .d-btn:active { background: var(--kai-focus-bg); }
+        .d-up { top: 5px; left: 50%; transform: translateX(-50%); }
+        .d-down { bottom: 5px; left: 50%; transform: translateX(-50%); }
+        .d-left { left: 5px; top: 50%; transform: translateY(-50%); }
+        .d-right { right: 5px; top: 50%; transform: translateY(-50%); }
+        .d-center { width: 50px; height: 50px; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: var(--kai-focus-bg); border: 2px solid #1a1a2e; }
+        .d-center:active { background: #6a1b9a; }
+        
+        .instructions {
+            color: #888;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 10px;
+            max-width: 250px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="device-wrapper">
+        <!-- KaiOS Device Screen -->
+        <div id="kaios-device" tabindex="0">
+            
+            <div id="header">Bible Reader</div>
+
+            <!-- Dynamic Search Area for long lists (Versions & Books) -->
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="Type to filter..." autocomplete="off">
+            </div>
+            
+            <div id="main-content">
+                <div id="list-container"></div>
+                <div id="grid-container"></div>
+                <div id="reader-container"></div>
+                
+                <!-- Custom Network Error Display -->
+                <div id="error-container">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-title">Network Interrupted</div>
+                    <p class="error-msg">Please check your connection and press Select to try again.</p>
+                </div>
+
+                <!-- Custom Overlay Modals/Warnings -->
+                <div id="modal-overlay">
+                    <div class="modal-card">
+                        <div class="modal-title" id="modal-title">Notice</div>
+                        <p class="modal-body" id="modal-body">No Bible translation selected.</p>
+                        <span style="font-size: 10px; font-weight: bold; color: var(--kai-focus-bg);">Press OK to Dismiss</span>
+                    </div>
+                </div>
+                
+                <div id="loader">
+                    <div class="spinner"></div>
+                    <span id="loader-text">Loading...</span>
+                    <span id="loader-status"></span>
+                </div>
+            </div>
+
+            <div id="softkey-bar">
+                <div id="softkey-left" class="softkey"></div>
+                <div id="softkey-center" class="softkey"></div>
+                <div id="softkey-right" class="softkey"></div>
+            </div>
+        </div>
+
+        <!-- Virtual Hardware Controller -->
+        <div class="keypad">
+            <div class="softkeys-row">
+                <button class="ctrl-btn sk-btn" onclick="simulateKey('SoftLeft')">LSK</button>
+                <button class="ctrl-btn sk-btn" onclick="simulateKey('SoftRight')">RSK</button>
+            </div>
+            
+            <div class="d-pad-container">
+                <button class="d-btn d-up" onclick="simulateKey('ArrowUp')">▲</button>
+                <button class="d-btn d-left" onclick="simulateKey('ArrowLeft')">◀</button>
+                <button class="d-btn d-center" onclick="simulateKey('Enter')">OK</button>
+                <button class="d-btn d-right" onclick="simulateKey('ArrowRight')">▶</button>
+                <button class="d-btn d-down" onclick="simulateKey('ArrowDown')">▼</button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <strong>Key Controls:</strong><br>
+            Arrows = Navigate/Scroll | L/R in lists = Jump 5 items<br>
+            RSK = Search/Filter (Versions & Books screens)<br>
+            LSK = Back | OK = Select
+        </div>
+    </div>
+
+    <script>
+        // --- SAFE KAIOS SCROLL LOGIC ---
+        function ensureVisible(element) {
+            if (!element) return;
+            const container = element.parentElement;
+            if (!container) return;
+
+            const elementTop = element.offsetTop;
+            const elementBottom = elementTop + element.offsetHeight;
+            const containerTop = container.scrollTop;
+            const containerBottom = containerTop + container.clientHeight;
+
+            if (elementTop < containerTop) {
+                container.scrollTop = elementTop;
+            } else if (elementBottom > containerBottom) {
+                container.scrollTop = elementBottom - container.clientHeight;
+            }
+        }
+
+        // --- API Configuration ---
+        const apiBaseUrl = 'https://bible-ivory.vercel.app/api/proxy';
+
+        // Canonical Book Identifiers for automatic testament sorting
+        const OT_IDS = ["GEN","EXO","LEV","NUM","DEU","JOS","JDG","RUT","1SA","2SA","1KI","2KI","1CH","2CH","EZR","NEH","EST","JOB","PSA","PRO","ECC","SNG","ISA","JER","LAM","EZK","DAN","HOS","JOL","AMO","OBA","JON","MIC","NAM","HAB","ZEP","HAG","ZEC","MAL"];
+        const NT_IDS = ["MAT","MRK","LUK","JHN","ACT","ROM","1CO","2CO","GAL","EPH","PHP","COL","1TH","2TH","1TI","2TI","TIT","PHM","HEB","JAS","1PE","2PE","1JN","2JN","3JN","JUD","REV"];
+
+        // --- Custom Exponential Backoff Retry System ---
+        async function apiCallWithRetry(path, retries = 5, delay = 1000) {
+            try {
+                const url = `${apiBaseUrl}?path=${encodeURIComponent(path)}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                return data.data || data;
+            } catch (error) {
+                if (retries > 1) {
+                    const attemptNumber = 6 - retries;
+                    updateLoaderStatus(`Retrying (${attemptNumber}/5)...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return apiCallWithRetry(path, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+
+        // --- Persisted State & State Tracking ---
+        let currentBibleId = localStorage.getItem('kai_selected_bible_id') || null;
+        let currentBibleName = localStorage.getItem('kai_selected_bible_name') || "None Selected";
+
+        let navStack = [];
+        let rawListItems = []; 
+        let ctx = {
+            view: 'menu',
+            type: 'menu', 
+            title: 'Bible Home',
+            items: [],
+            index: 0,
+            textData: null,
+            bibleId: currentBibleId,
+            bookId: null,
+            failedAction: null
+        };
+        let isLoading = false;
+        let isModalOpen = false;
+        let isSearchActive = false;
+        let isSearchInputFocused = false;
+
+        // --- DOM Elements ---
+        const device = document.getElementById('kaios-device');
+        const header = document.getElementById('header');
+        const listContainer = document.getElementById('list-container');
+        const gridContainer = document.getElementById('grid-container');
+        const readerContainer = document.getElementById('reader-container');
+        const errorContainer = document.getElementById('error-container');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const loader = document.getElementById('loader');
+        const loaderStatus = document.getElementById('loader-status');
+        const skLeft = document.getElementById('softkey-left');
+        const skCenter = document.getElementById('softkey-center');
+        const skRight = document.getElementById('softkey-right');
+        const searchContainer = document.getElementById('search-container');
+        const searchInput = document.getElementById('search-input');
+
+        // --- Navigation Stack Management ---
+        function pushContext(newCtx) {
+            if (ctx.view !== 'error') {
+                navStack.push({ ...ctx });
+            }
+            ctx = { ...ctx, ...newCtx, index: 0 };
+            if (ctx.type !== 'versions' && ctx.type !== 'books') deactivateSearch();
+            render();
+        }
+
+        function popContext() {
+            if (navStack.length > 0) {
+                ctx = navStack.pop();
+                if (ctx.type !== 'versions' && ctx.type !== 'books') deactivateSearch();
+                render();
+            }
+        }
+
+        // --- Fetch & View Actions ---
+        function loadMainMenu() {
+            deactivateSearch();
+            ctx = {
+                view: 'menu',
+                type: 'menu',
+                title: 'Bible Home',
+                items: [
+                    { title: '📚 Select Bible Version', sub: 'Choose active translation' },
+                    { title: '📖 Read Scripture', sub: `Active: ${currentBibleName}` }
+                ],
+                index: 0,
+                textData: null,
+                bibleId: currentBibleId,
+                bookId: null,
+                failedAction: null
+            };
+            navStack = []; 
+            render();
+        }
+
+        async function loadVersions() {
+            setLoading(true, "Connecting...");
+            try {
+                const bibles = await apiCallWithRetry('bibles');
+                rawListItems = bibles; 
+                pushContext({ view: 'list', type: 'versions', title: 'Select Version', items: bibles });
+            } catch (e) {
+                showErrorScreen(() => loadVersions());
+            }
+            setLoading(false);
+        }
+
+        async function loadTestaments(bibleId, bibleName) {
+            setLoading(true, "Fetching Books...");
+            try {
+                const books = await apiCallWithRetry(`bibles/${bibleId}/books`);
+                
+                const ot = [];
+                const nt = [];
+                const apocrypha = [];
+
+                books.forEach(b => {
+                    const id = (b.id || "").toUpperCase();
+                    if (OT_IDS.includes(id)) ot.push(b);
+                    else if (NT_IDS.includes(id)) nt.push(b);
+                    else apocrypha.push(b);
+                });
+
+                const testaments = [];
+                if (ot.length > 0) testaments.push({ title: 'Old Testament', sub: `${ot.length} books`, data: ot });
+                if (nt.length > 0) testaments.push({ title: 'New Testament', sub: `${nt.length} books`, data: nt });
+                if (apocrypha.length > 0) testaments.push({ title: 'Deuterocanonicals', sub: `${apocrypha.length} books`, data: apocrypha });
+
+                if (testaments.length === 0) {
+                    rawListItems = books; 
+                    pushContext({ view: 'list', type: 'books', title: bibleName, items: books, bibleId: bibleId });
+                } else {
+                    pushContext({ view: 'menu', type: 'testaments', title: bibleName, items: testaments, bibleId: bibleId });
+                }
+
+            } catch (e) {
+                showErrorScreen(() => loadTestaments(bibleId, bibleName));
+            }
+            setLoading(false);
+        }
+
+        async function loadChapters(bookId, bookName) {
+            setLoading(true, "Chapters...");
+            try {
+                const chapters = await apiCallWithRetry(`bibles/${ctx.bibleId}/books/${bookId}/chapters`);
+                pushContext({ view: 'grid', type: 'chapters', title: bookName, items: chapters, bookId: bookId });
+            } catch (e) {
+                showErrorScreen(() => loadChapters(bookId, bookName));
+            }
+            setLoading(false);
+        }
+
+        async function loadChapterText(chapterId, chapterName) {
+            setLoading(true, "Downloading...");
+            try {
+                const path = `bibles/${ctx.bibleId}/chapters/${chapterId}?content-type=text&include-notes=false&include-titles=true&include-chapter-numbers=false&include-verse-numbers=true`;
+                const data = await apiCallWithRetry(path);
+                pushContext({ view: 'reader', type: 'text', title: chapterName, items: [], textData: data.content });
+            } catch (e) {
+                showErrorScreen(() => loadChapterText(chapterId, chapterName));
+            }
+            setLoading(false);
+        }
+
+        // --- Universal Search/Filter Mechanics ---
+        function toggleSearch() {
+            if (ctx.type !== 'versions' && ctx.type !== 'books') return;
+            
+            if (!isSearchActive) activateSearch();
+            else {
+                deactivateSearch();
+                ctx.items = rawListItems;
+                ctx.index = 0;
+                renderList();
+            }
+            updateSoftkeys();
+        }
+
+        function activateSearch() {
+            isSearchActive = true;
+            searchContainer.style.display = 'block';
+            focusSearchField();
+        }
+
+        function deactivateSearch() {
+            isSearchActive = false;
+            isSearchInputFocused = false;
+            searchContainer.style.display = 'none';
+            searchInput.value = '';
+            searchInput.blur();
+            searchInput.classList.remove('focused');
+        }
+
+        function focusSearchField() {
+            isSearchInputFocused = true;
+            searchInput.classList.add('focused');
+            searchInput.focus();
+            updateSoftkeys();
+        }
+
+        function unfocusSearchField() {
+            isSearchInputFocused = false;
+            searchInput.classList.remove('focused');
+            searchInput.blur();
+            device.focus();
+            updateSoftkeys();
+        }
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase().trim();
+            if (query === '') {
+                ctx.items = rawListItems;
+            } else {
+                ctx.items = rawListItems.filter(item => {
+                    const nameMatch = (item.name || "").toLowerCase().includes(query);
+                    const abbrMatch = (item.abbreviation || "").toLowerCase().includes(query);
+                    return nameMatch || abbrMatch;
+                });
+            }
+            ctx.index = 0;
+            renderList();
+        });
+
+        // --- Rendering Core ---
+        function render() {
+            header.textContent = ctx.title;
+            
+            listContainer.style.display = (ctx.view === 'list' || ctx.view === 'menu') ? 'block' : 'none';
+            gridContainer.style.display = ctx.view === 'grid' ? 'grid' : 'none';
+            readerContainer.style.display = ctx.view === 'reader' ? 'block' : 'none';
+            errorContainer.style.display = ctx.view === 'error' ? 'flex' : 'none';
+
+            if (ctx.view === 'menu') renderMenu();
+            else if (ctx.view === 'list') renderList();
+            else if (ctx.view === 'grid') renderGrid();
+            else if (ctx.view === 'reader') renderReader();
+
+            updateSoftkeys();
+        }
+
+        function renderMenu() {
+            listContainer.innerHTML = '';
+            ctx.items.forEach((item, i) => {
+                const div = document.createElement('div');
+                div.className = `menu-item ${i === ctx.index ? 'focused' : ''}`;
+                
+                const title = document.createElement('span');
+                title.className = 'menu-title';
+                title.textContent = item.title;
+
+                const sub = document.createElement('span');
+                sub.className = 'menu-sub';
+                sub.textContent = item.sub;
+
+                div.appendChild(title);
+                div.appendChild(sub);
+                listContainer.appendChild(div);
+            });
+            
+            ensureVisible(listContainer.querySelector('.focused'));
+        }
+
+        function renderList() {
+            listContainer.innerHTML = '';
+            if (!ctx.items || ctx.items.length === 0) {
+                listContainer.innerHTML = '<div style="padding: 15px; text-align:center; color:#888;">No items found.</div>';
+                return;
+            }
+
+            ctx.items.forEach((item, i) => {
+                const div = document.createElement('div');
+                div.className = `list-item ${(!isSearchInputFocused && i === ctx.index) ? 'focused' : ''}`;
+                div.textContent = item.name || item.number || item.reference || item.id; 
+                listContainer.appendChild(div);
+            });
+
+            ensureVisible(listContainer.querySelector('.focused'));
+        }
+
+        function renderGrid() {
+            gridContainer.innerHTML = '';
+            if (!ctx.items || ctx.items.length === 0) {
+                gridContainer.innerHTML = '<div style="grid-column: 1 / -1; text-align:center; color:#888;">No chapters</div>';
+                return;
+            }
+
+            ctx.items.forEach((item, i) => {
+                const div = document.createElement('div');
+                div.className = `grid-item ${i === ctx.index ? 'focused' : ''}`;
+                div.textContent = item.number || item.reference || item.id;
+                gridContainer.appendChild(div);
+            });
+
+            ensureVisible(gridContainer.querySelector('.focused'));
+        }
+
+        function parseVerses(text) {
+            const regex = /\[(\d+)\]/g;
+            let match;
+            let verses = [];
+            let lastIndex = 0;
+            let lastNum = null;
+
+            while ((match = regex.exec(text)) !== null) {
+                if (lastNum !== null) {
+                    const verseText = text.substring(lastIndex, match.index).trim();
+                    verses.push({ number: lastNum, text: verseText });
+                }
+                lastNum = match[1];
+                lastIndex = regex.lastIndex;
+            }
+            if (lastNum !== null) {
+                const verseText = text.substring(lastIndex).trim();
+                verses.push({ number: lastNum, text: verseText });
+            }
+            return verses;
+        }
+
+        function renderReader() {
+            const rawText = ctx.textData || "Content unavailable.";
+            const verses = parseVerses(rawText);
+            
+            readerContainer.innerHTML = '';
+            
+            if (verses.length === 0) {
+                const p = document.createElement('p');
+                p.style.margin = '0';
+                p.style.lineHeight = '1.6';
+                p.textContent = rawText;
+                readerContainer.appendChild(p);
+            } else {
+                verses.forEach(v => {
+                    const row = document.createElement('div');
+                    row.className = 'verse-row';
+                    
+                    const num = document.createElement('span');
+                    num.className = 'verse-number';
+                    num.textContent = v.number;
+                    
+                    const txt = document.createElement('span');
+                    txt.className = 'verse-text';
+                    txt.textContent = v.text;
+                    
+                    row.appendChild(num);
+                    row.appendChild(txt);
+                    readerContainer.appendChild(row);
+                });
+            }
+            readerContainer.scrollTop = 0; 
+        }
+
+        function showErrorScreen(retryAction) {
+            pushContext({
+                view: 'error',
+                type: 'error',
+                title: 'Connection Lost',
+                failedAction: retryAction
+            });
+        }
+
+        function showModal(title, message) {
+            isModalOpen = true;
+            modalTitle.textContent = title;
+            modalBody.textContent = message;
+            modalOverlay.style.display = 'flex';
+        }
+
+        function hideModal() {
+            isModalOpen = false;
+            modalOverlay.style.display = 'none';
+            device.focus();
+        }
+
+        function updateSoftkeys() {
+            if (isModalOpen) {
+                skLeft.textContent = '';
+                skCenter.textContent = 'OK';
+                skRight.textContent = '';
+                return;
+            }
+            if (isSearchInputFocused) {
+                skLeft.textContent = 'Cancel';
+                skCenter.textContent = '';
+                skRight.textContent = 'Clear';
+                return;
+            }
+
+            if (ctx.view === 'menu') {
+                skLeft.textContent = ctx.type === 'testaments' ? 'Back' : '';
+                skCenter.textContent = 'Select';
+                skRight.textContent = '';
+            } else if (ctx.view === 'list' || ctx.view === 'grid') {
+                skLeft.textContent = 'Back';
+                skCenter.textContent = ctx.items.length > 0 ? 'Select' : '';
+                skRight.textContent = (ctx.type === 'versions' || ctx.type === 'books') ? (isSearchActive ? 'Close' : 'Search') : ''; 
+            } else if (ctx.view === 'reader') {
+                skLeft.textContent = 'Back';
+                skCenter.textContent = '';
+                skRight.textContent = ''; 
+            } else if (ctx.view === 'error') {
+                skLeft.textContent = navStack.length > 1 ? 'Back' : '';
+                skCenter.textContent = 'Retry';
+                skRight.textContent = '';
+            }
+        }
+
+        function setLoading(state, label = "Loading...") {
+            isLoading = state;
+            loader.style.display = state ? 'flex' : 'none';
+            if (state) {
+                document.getElementById('loader-text').textContent = label;
+                updateLoaderStatus('');
+            } else {
+                device.focus();
+            }
+        }
+
+        function updateLoaderStatus(status) {
+            loaderStatus.textContent = status;
+        }
+
+        // --- Interaction Logic ---
+        function handleSelect() {
+            if (isModalOpen) {
+                hideModal();
+                return;
+            }
+
+            if (ctx.view === 'menu') {
+                if (ctx.type === 'menu') {
+                    if (ctx.index === 0) loadVersions();
+                    else if (ctx.index === 1) {
+                        if (!currentBibleId) showModal("Select Version", "Please select a Bible translation from option 1 before reading.");
+                        else loadTestaments(currentBibleId, currentBibleName);
+                    }
+                } else if (ctx.type === 'testaments') {
+                    const item = ctx.items[ctx.index];
+                    rawListItems = item.data; 
+                    pushContext({ view: 'list', type: 'books', title: item.title, items: item.data, bibleId: ctx.bibleId });
+                }
+            } else if (ctx.view === 'error') {
+                if (ctx.failedAction) {
+                    const actionToRetry = ctx.failedAction;
+                    popContext();
+                    actionToRetry();
+                }
+            } else if ((ctx.view === 'list' || ctx.view === 'grid') && ctx.items.length > 0) {
+                const item = ctx.items[ctx.index];
+                
+                if (ctx.type === 'versions') {
+                    currentBibleId = item.id;
+                    currentBibleName = item.abbreviation || item.name;
+                    localStorage.setItem('kai_selected_bible_id', currentBibleId);
+                    localStorage.setItem('kai_selected_bible_name', currentBibleName);
+                    loadMainMenu();
+                } else if (ctx.type === 'books') {
+                    loadChapters(item.id, item.name);
+                } else if (ctx.type === 'chapters') {
+                    loadChapterText(item.id, item.reference || `Chapter ${item.number}`);
+                }
+            }
+        }
+
+        function handleBack() {
+            if (isModalOpen) { hideModal(); return; }
+            if (isSearchInputFocused) { unfocusSearchField(); return; }
+            if (navStack.length > 0) popContext();
+        }
+
+        // --- Dynamic Navigation Control Engine ---
+        function processKey(key) {
+            if (isLoading) return;
+
+            if (isModalOpen) {
+                if (key === 'Enter' || key === 'SoftLeft' || key === 'q' || key === 'Backspace') handleBack();
+                return;
+            }
+
+            // Fix for Input Focus Key Blocking
+            if (isSearchInputFocused) {
+                if (key === 'ArrowDown' || key === 'Enter') {
+                    if (ctx.items.length > 0) {
+                        unfocusSearchField();
+                        renderList(); 
+                    }
+                } else if (key === 'SoftLeft' || key === 'Escape') {
+                    deactivateSearch();
+                    ctx.items = rawListItems;
+                    ctx.index = 0;
+                    renderList();
+                } else if (key === 'Backspace') {
+                    if (searchInput.value.length === 0) {
+                        deactivateSearch();
+                        ctx.items = rawListItems;
+                        ctx.index = 0;
+                        renderList();
+                    }
+                } else if (key === 'SoftRight') {
+                    searchInput.value = '';
+                    ctx.items = rawListItems;
+                    ctx.index = 0;
+                    renderList();
+                }
+                return; 
+            }
+
+            if (ctx.view === 'menu') {
+                const length = ctx.items.length;
+                switch(key) {
+                    case 'ArrowDown':
+                        ctx.index = (ctx.index + 1) % length;
+                        renderMenu();
+                        break;
+                    case 'ArrowUp':
+                        ctx.index = (ctx.index - 1 + length) % length;
+                        renderMenu();
+                        break;
+                    case 'Enter': handleSelect(); break;
+                    case 'SoftLeft': case 'q': case 'Backspace': handleBack(); break;
+                }
+            } else if (ctx.view === 'list') {
+                const length = ctx.items.length;
+                switch(key) {
+                    case 'ArrowDown':
+                        if (length > 0) {
+                            ctx.index = (ctx.index + 1) % length;
+                            renderList();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        if (isSearchActive && ctx.index === 0) focusSearchField();
+                        else if (length > 0) {
+                            ctx.index = (ctx.index - 1 + length) % length;
+                            renderList();
+                        }
+                        break;
+                    case 'ArrowRight':
+                        if (length > 0) {
+                            ctx.index = (ctx.index + 5) % length;
+                            renderList();
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        if (length > 0) {
+                            ctx.index = (ctx.index - 5 + length) % length;
+                            renderList();
+                        }
+                        break;
+                    case 'Enter': handleSelect(); break;
+                    case 'SoftLeft': case 'q': case 'Backspace': handleBack(); break;
+                    case 'SoftRight': case 'e': toggleSearch(); break; 
+                }
+            } else if (ctx.view === 'grid') {
+                const cols = 4;
+                const length = ctx.items.length;
+                switch(key) {
+                    case 'ArrowRight':
+                        if (length > 0) {
+                            ctx.index = (ctx.index + 1) % length;
+                            renderGrid();
+                        }
+                        break;
+                    case 'ArrowLeft':
+                        if (length > 0) {
+                            ctx.index = (ctx.index - 1 + length) % length;
+                            renderGrid();
+                        }
+                        break;
+                    case 'ArrowDown':
+                        if (length > 0) {
+                            const col = ctx.index % cols;
+                            const next = ctx.index + cols;
+                            if (next >= length) ctx.index = col; 
+                            else ctx.index = next;
+                            renderGrid();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        if (length > 0) {
+                            const col = ctx.index % cols;
+                            const prev = ctx.index - cols;
+                            if (prev < 0) {
+                                let lastInCol = col;
+                                while (lastInCol + cols < length) lastInCol += cols;
+                                ctx.index = lastInCol;
+                            } else {
+                                ctx.index = prev;
+                            }
+                            renderGrid();
+                        }
+                        break;
+                    case 'Enter': handleSelect(); break;
+                    case 'SoftLeft': case 'q': case 'Backspace': handleBack(); break;
+                }
+            } else if (ctx.view === 'reader') {
+                switch(key) {
+                    case 'ArrowDown': readerContainer.scrollTop += 40; break;
+                    case 'ArrowUp': readerContainer.scrollTop -= 40; break;
+                    case 'SoftLeft': case 'q': case 'Backspace': handleBack(); break;
+                }
+            } else if (ctx.view === 'error') {
+                switch(key) {
+                    case 'Enter': handleSelect(); break;
+                    case 'SoftLeft': case 'q': case 'Backspace': handleBack(); break;
+                }
+            }
+        }
+
+        device.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', 'Backspace', 'SoftLeft', 'SoftRight'].includes(e.key)) {
+                if (isSearchInputFocused && e.key !== 'Enter') return; 
+                e.preventDefault();
+            }
+            processKey(e.key);
+        });
+
+        window.simulateKey = function(keyName) {
+            processKey(keyName);
+            if (isSearchInputFocused) searchInput.focus();
+            else device.focus();
+        };
+
+        // --- Initialization ---
+        device.focus();
+        loadMainMenu(); 
+    </script>
+</body>
+</html>

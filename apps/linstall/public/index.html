@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LInstall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2b2b2b">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>LInstall</header>
+    
+    <main id="app-content">
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search ZIP files..." tabIndex="0">
+        </div>
+        <div id="message" class="message hidden"></div>
+        <div id="file-list">
+            <!-- App cards will be listed here -->
+        </div>
+    </main>
+
+    <div id="view-details" class="hidden">
+        <div class="app-header">
+            <div class="app-icon"></div>
+            <div class="app-info">
+                <div id="details-title" class="app-title"></div>
+                <div id="details-author" class="app-author"></div>
+            </div>
+        </div>
+        <div id="details-description" class="details-description"></div>
+        <button id="install-btn">Install Package</button>
+    </div>
+
+    <footer id="softkey-bar">
+        <div id="softkey-left">Exit</div>
+        <div id="softkey-center">Select</div>
+        <div id="softkey-right">Refresh</div>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

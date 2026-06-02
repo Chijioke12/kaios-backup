@@ -1,0 +1,28 @@
+{
+  "name": "Kaitube",
+  "description": "YouTube client for KaiOS",
+  "version": "1.0.0",
+  "launch_path": "/index.html",
+  "origin": "app://kaitube.kaios",
+  "icons": {
+    "56": "/icons/icon-56.png",
+    "112": "/icons/icon-112.png"
+  },
+  "developer": {
+    "name": "Kaitube Developer",
+    "url": "https://github.com/kaitube"
+  },
+  "type": "privileged",
+  "permissions": {
+    "systemXHR": {
+      "description": "Required to make network requests"
+    },
+    "browser": {
+      "description": "Required for triggering system downloads via iframe"
+    }
+  },
+  "chrome": {
+    "statusbar": "overlap"
+  },
+  "default_locale": "en-US"
+}

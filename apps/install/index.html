@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>App Installer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="icon" type="image/svg+xml" href="icon.svg" sizes="any">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>App Installer</header>
+	
+	<main id="app-content">
+		<div class="list-item">
+			<label for="hosted-url-input">URL to hosted app:</label>
+			<input id="hosted-url-input" type="url" placeholder="https://example.org/manifest.webapp">
+		</div>
+		
+		<button id="hosted-url-button" class="list-item">Install hosted app</button>
+		
+		<div class="list-item">
+			<label for="packaged-url-input">URL to packaged app:</label>
+			<input id="packaged-url-input" type="url" value="http://localhost:8080/manifest.webapp" placeholder="https://example.org/manifest.webapp">
+		</div>
+		
+		<button id="packaged-url-button" class="list-item">Install packaged app</button>
+
+		<section id="instructions">
+			<h2>Instructions</h2>
+			<p style="font-size: 0.85em;">How to install a packaged app from a ZIP:</p>
+			<ol>
+				<li>Install <a href="https://marketplace.firefox.com/app/webserver" target="_blank" rel="noopener">WebServer</a>.</li>
+				<li>Create a manifest with <code>package_path</code> pointing to the ZIP.</li>
+				<li>Start the webserver and ensure files are accessible.</li>
+				<li>Use this app to install via the URL.</li>
+				<li>Use different filenames for each app.</li>
+				<li>To update, refresh files and restart webserver during update check.</li>
+			</ol>
+		</section>
+	</main>
+
+	<script src="install.js"></script>
+</body>
+</html>

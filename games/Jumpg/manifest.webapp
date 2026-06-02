@@ -1,0 +1,25 @@
+{
+    "version": "1.0.1",
+    "name": "Rabbit Jump",
+    "description": "Your rabbit wants to jump and get the highest score! Achieve it!",
+    "type": "web",
+	"fullscreen": "true",
+    "launch_path": "/index.html",
+    "icons": {
+        "56": "/assets/icons/RabbitJump_56.png",
+        "112": "/assets/icons/RabbitJump_112.png"
+    },
+    "developer": {
+        "name": "Peter Wu",
+        "url": "https://kaiostech.com/"
+    },
+    "locales": {
+        "en-US": {
+            "name": "Rabbit Jump",
+            "subtitle": "Your rabbit wants to jump and get the highest score! Achieve it!",
+            "description": "Your rabbit wants to jump and get the highest score! Achieve it!"
+        }
+    },
+    "categories": ["games"],
+    "default_locale": "en-US"
+}

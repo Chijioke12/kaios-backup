@@ -1,0 +1,232 @@
+
+
+/* Reset & Base */
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
+  font-family: "Open Sans", sans-serif;
+  background-color: #1f2937; /* Gray-800 */
+  color: #fff;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+/* Utilities */
+.hidden { display: none !important; }
+
+/* Layout */
+#header {
+  position: absolute; top: 0; left: 0; right: 0; height: 28px;
+  background-color: #4c1d95; /* Violet-900 */
+  display: flex; justify-content: center; align-items: center;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.header-title { 
+  font-weight: bold; font-size: 14px; 
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  max-width: 90%; 
+}
+
+#app-container {
+  position: absolute; top: 28px; bottom: 30px; left: 0; right: 0;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+/* --- STATE-BASED LAYOUT OVERRIDES --- */
+
+/* Player View Active: Hide Header, Adjust Top */
+body.view-player #header {
+  display: none !important;
+}
+body.view-player #app-container {
+  top: 0 !important;
+  background-color: #000;
+}
+
+/* Landscape Mode: Full Screen, No Softkeys */
+body.is-landscape #app-container {
+  bottom: 0 !important;
+}
+body.is-landscape .softkeys {
+  display: none !important;
+}
+
+/* ------------------------------------ */
+
+/* View: Library & Search */
+.view { width: 100%; height: 100%; display: flex; flex-direction: column; }
+
+.search-bar { padding: 5px; background: #374151; }
+input[type="text"] {
+  width: 100%; padding: 4px; border-radius: 4px; border: none;
+  font-size: 14px;
+}
+input[type="text"]:focus { outline: 2px solid #8b5cf6; }
+
+/* IMPORTANT: position relative needed for offsetTop scrolling calculations */
+.list-container { flex: 1; overflow-y: auto; position: relative; }
+.empty-state { text-align: center; margin-top: 50px; color: #9ca3af; }
+
+.list-item {
+  padding: 8px; border-bottom: 1px solid #374151;
+  display: flex; align-items: center;
+  /* Ensure consistent height for calculations */
+  min-height: 58px; 
+}
+.list-item.active { background-color: #5b21b6; color: white; }
+
+.thumb {
+  width: 60px; height: 40px; background: #000; margin-right: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #4b5563; position: relative; flex-shrink: 0;
+  overflow: hidden;
+}
+.thumb img { 
+  width: 100%; height: 100%; object-fit: cover; 
+  position: absolute; top: 0; left: 0; z-index: 2;
+  display: block;
+}
+.thumb-icon { font-size: 20px; color: #6b7280; z-index: 1; }
+.resume-dot {
+  position: absolute; bottom: 2px; right: 2px;
+  width: 6px; height: 6px; background: #10b981; border-radius: 50%;
+  border: 1px solid #000; z-index: 3;
+}
+
+.item-info { flex: 1; min-width: 0; }
+.item-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; margin-bottom: 2px; }
+.item-meta { font-size: 11px; color: #9ca3af; display: flex; justify-content: space-between; }
+.list-item.active .item-meta { color: #d1d5db; }
+
+/* View: Player */
+.player-container {
+  width: 100%; height: 100%; background: #000; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+}
+
+video {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+  z-index: 1;
+}
+
+/* Brightness Overlay */
+#brightness-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: black;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10; /* Above video, below controls */
+}
+
+/* Landscape Mode for KaiOS (240x320 screen) */
+/* Rotate 90deg, but must swap width/height to fill */
+.landscape-mode {
+  width: 320px !important; height: 240px !important;
+  transform: rotate(90deg);
+  position: absolute;
+  top: 50%; left: 50%;
+  margin-top: -120px; /* Half of 240 */
+  margin-left: -160px; /* Half of 320 */
+}
+
+.player-overlay {
+  position: absolute; left: 0; right: 0;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 10px; z-index: 50;
+  transition: opacity 0.3s;
+}
+.player-overlay.top { top: 0; display: flex; justify-content: space-between; }
+.player-overlay.bottom { 
+  bottom: 0; 
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); 
+  padding-bottom: 5px;
+}
+.player-overlay.hidden { opacity: 0; }
+
+#player-filename { font-size: 12px; font-weight: bold; text-shadow: 1px 1px 2px #000; }
+#player-muted-icon { color: #f87171; font-weight: bold; font-size: 11px; }
+
+.time-row { display: flex; align-items: center; font-size: 11px; font-family: monospace; margin-bottom: 2px; }
+.progress-bar { flex: 1; height: 4px; background: #4b5563; margin: 0 8px; border-radius: 2px; position: relative; }
+#progress-fill { height: 100%; background: #8b5cf6; width: 0%; }
+.status-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: bold; color: #d1d5db; }
+
+/* Feedback */
+.player-feedback {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 20px;
+  text-align: center; z-index: 60;
+  display: flex; flex-direction: column; align-items: center;
+}
+#feedback-text { font-weight: bold; font-size: 16px; }
+#feedback-bar-container { width: 80px; height: 6px; background: #374151; margin-top: 5px; border-radius: 3px; }
+#feedback-bar-fill { height: 100%; background: #8b5cf6; width: 50%; }
+
+/* Dialogs */
+.menu-overlay, .dialog-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7); z-index: 200;
+  display: flex; align-items: flex-end; 
+}
+.dialog-overlay { align-items: center; justify-content: center; }
+
+.menu-box {
+  width: 100%; background: #1f2937; border-top: 1px solid #4b5563;
+  max-height: 80%; display: flex; flex-direction: column;
+}
+.menu-box.right-aligned { width: 60%; margin-left: auto; border-left: 1px solid #4b5563; }
+
+.dialog-box {
+  width: 85%; background: #1f2937; border: 1px solid #4b5563;
+  border-radius: 5px; padding: 10px; text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.menu-header { background: #4c1d95; color: white; padding: 5px; font-weight: bold; font-size: 12px; }
+.menu-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; flex: 1; position: relative; }
+.menu-list li { padding: 8px 10px; border-bottom: 1px solid #374151; font-size: 14px; }
+.menu-list li.active { background: #6d28d9; color: white; font-weight: bold; }
+
+.info-content { text-align: left; max-height: 200px; overflow-y: auto; padding-top: 5px; }
+.info-content .row { display: flex; }
+.info-content .col { flex: 1; }
+.info-content .col:first-child { margin-right: 5px; }
+
+.info-content label { color: #9ca3af; font-size: 10px; text-transform: uppercase; display: block; }
+.info-content p { background: #111; padding: 4px; margin: 2px 0 8px 0; border-radius: 3px; font-size: 12px; }
+
+/* Shortcuts */
+.shortcuts-content { padding: 5px; }
+.shortcuts-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.shortcuts-table td { padding: 4px; border-bottom: 1px solid #374151; }
+.shortcuts-table td:last-child { text-align: right; font-weight: bold; color: #a78bfa; }
+.shortcuts-table tr:last-child td { border-bottom: none; }
+
+.help-list { list-style: none; padding: 0; margin: 0; font-size: 11px; color: #d1d5db; }
+.help-list li { display: flex; justify-content: space-between; margin-bottom: 2px; }
+.divider { border-bottom: 1px solid #4b5563; margin: 5px 0; font-size: 11px; color: #9ca3af; text-transform: uppercase; }
+
+/* Soft Keys */
+.softkeys {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 30px;
+  background: #111; border-top: 1px solid #374151;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5px; z-index: 100;
+}
+
+#sk-center { font-weight: bold; text-transform: uppercase; font-size: 13px; transform: scale(1.1); }
+#sk-left, #sk-right { font-size: 12px; color: #d1d5db; width: 60px; }
+#sk-right { text-align: right; }
+
+/* Toast */
+.toast {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: rgba(31, 41, 55, 0.95); padding: 8px 15px; border-radius: 5px;
+  border: 1px solid #4b5563; font-size: 14px; z-index: 300;
+  text-align: center;
+}

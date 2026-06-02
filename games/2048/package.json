@@ -1,0 +1,36 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "generate-icons": "node generate-icons.mjs",
+    "separate-js": "node separate-js.mjs",
+    "build:omnisd": "vite build && node build-omnisd.mjs",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^1.29.0",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "preact": "^10.26.2",
+    "vite": "^6.2.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.4",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-legacy": "^6.1.1",
+    "archiver": "^7.0.1",
+    "canvas": "^3.2.3",
+    "cheerio": "^1.2.0",
+    "terser": "^5.46.2",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

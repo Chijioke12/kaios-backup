@@ -1,0 +1,26 @@
+name: delta.map
+description: >
+  delta.map is a local offline and online caching client for viewing maps, weather, utilities, and more coming soon.
+icon: https://raw.githubusercontent.com/Delta-Applications/delta.map/main/icons/icon-112-112.png
+screenshots:
+  - https://raw.githubusercontent.com/Delta-Applications/delta.map/main/screenshots/screenshot%20(1).png
+  - https://raw.githubusercontent.com/Delta-Applications/delta.map/main/screenshots/screenshot%20(2).png
+  - https://raw.githubusercontent.com/Delta-Applications/delta.map/main/screenshots/screenshot%20(3).png
+  - https://raw.githubusercontent.com/Delta-Applications/delta.map/main/screenshots/screenshot%20(4).png
+  - https://raw.githubusercontent.com/Delta-Applications/delta.map/main/screenshots/screenshot%20(5).png
+license: MIT
+git_repo: https://github.com/Delta-Applications/delta.map
+download:
+  url: https://raw.githubusercontent.com/Delta-Applications/delta.map/main/build.zip
+  manifest: https://gitlab.com/banana-hackers/store-db/-/raw/master/apps/delta-map.json
+author: LolloDev5123;
+maintainer: LolloDev5123;
+has_tracking: false
+has_ads: false
+meta:
+  tags: map; openstreatmap; osm; maps; travel;
+  categories: 
+   - travel
+   - utility
+type: packaged
+

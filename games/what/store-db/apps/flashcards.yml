@@ -1,0 +1,24 @@
+name: Flashcards
+description: Create decks, flaschards and review them using spaced repetition system.
+icon: https://raw.githubusercontent.com/canicjusz/flashcards/master/flashcards_112.png
+# screenshots are optional
+# screenshots:
+# website is optional
+# website: 
+# git repo is optional
+git_repo: https://github.com/canicjusz/flashcards
+download:
+  url: https://github.com/canicjusz/flashcards/blob/master/flashcards.zip?raw=true
+  manifest: https://gitlab.com/banana-hackers/store-db/-/raw/master/apps/flashcards.json
+type: privileged
+license: WTFPL
+author: Jan Michalak <janmichalak@int.pl>
+maintainer: Jan Michalak <janmichalak@int.pl>
+# donation is optional
+# donation:
+has_ads: false
+has_tracking: false
+meta:
+  tags: flashcards; memorization
+  categories:
+   - education

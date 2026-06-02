@@ -1,0 +1,6 @@
+{
+  "name": "KaiOS Retro Games Collection",
+  "description": "A collection of retro neon-styled games optimized for KaiOS, including an OmniSD package builder.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
