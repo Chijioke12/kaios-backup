@@ -1,6 +1,0 @@
-{
-  "name": "KaiOS 2048",
-  "description": "A 2048 game optimized for KaiOS screen sizes and inputs.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
-}
